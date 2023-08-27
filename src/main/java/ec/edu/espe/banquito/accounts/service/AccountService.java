@@ -77,7 +77,8 @@ public class AccountService {
         account.setUniqueKey(uniqueKey);
         account.setActivationDate(new Date());
         account.setCreatedAt(new Date());
-        //account.setCreatedBy(account.getClientUk());
+        account.setLastInterestCalculationDate(new Date());
+        
         this.accountRepository.save(account);
     }
 
