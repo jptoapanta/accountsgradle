@@ -1,5 +1,6 @@
 package ec.edu.espe.banquito.accounts.controller;
 
+import ec.edu.espe.banquito.accounts.controller.req.AccountTransactionReqDto;
 import ec.edu.espe.banquito.accounts.controller.res.AccountTransactionResDto;
 import ec.edu.espe.banquito.accounts.service.AccountTransanctionService;
 import lombok.RequiredArgsConstructor;
