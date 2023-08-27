@@ -69,11 +69,13 @@ public class AccountTransanctionService {
                     Double resultDebtor=ammountDebtorTemp-ammountTmp;
                     System.out.println(resultDebtor);
                     accountDebtorTmp.get().setAvailableBalance(BigDecimal.valueOf(resultDebtor));
+                    accountDebtorTmp.get().setTotalBalance(BigDecimal.valueOf(resultDebtor));
 
                     Double ammountCredtorTemp=accountCredtorTmp.get().getAvailableBalance().doubleValue();
                     Double resultCredtor=ammountCredtorTemp +ammountTmp;
                     System.out.println(resultCredtor);
                     accountCredtorTmp.get().setAvailableBalance(BigDecimal.valueOf(resultCredtor));
+                    accountCredtorTmp.get().setTotalBalance(BigDecimal.valueOf(resultCredtor));
 
                     AccountTransaction accountTransactionDebtor=AccountTransaction.builder()
                             .uniqueKey(UUID.randomUUID().toString())
