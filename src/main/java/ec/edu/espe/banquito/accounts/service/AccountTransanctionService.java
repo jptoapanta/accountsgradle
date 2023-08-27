@@ -128,7 +128,7 @@ public class AccountTransanctionService {
                 }
 
             case "LOAN_REPAID":
-                Optional<Account> accountBanQTmp=this.accountRepository.findValidByCodeInternalAccount("");
+                Optional<Account> accountBanQTmp=this.accountRepository.findValidByCodeInternalAccount("20205224");
                 if(accountDebtorTmp.isPresent()){
 
                     Double ammountDebtorTemp=accountDebtorTmp.get().getAvailableBalance().doubleValue();
