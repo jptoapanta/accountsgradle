@@ -53,12 +53,7 @@ public class AccountController {
         ProductResDto productResDto = restTemplate.getForObject(url, ProductResDto.class);
         return ResponseEntity.ok(productResDto);
     }
-    @PostMapping("/transaction")
-    public ResponseEntity<AccountTransactionResDto> transactionAccounts(
-            @RequestBody AccountTransactionReqDto accountTransactionReqDto
-            ){
-        return ResponseEntity.ok(this.accountTransanctionService.bankTransfer(accountTransactionReqDto));
-    }
+    
 
     @PutMapping("/account/{accountUK}/max-overdraft")
     public ResponseEntity<AccountResDto> updateMaxOverdraft(

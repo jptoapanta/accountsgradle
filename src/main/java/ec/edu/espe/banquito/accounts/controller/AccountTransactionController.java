@@ -36,6 +36,12 @@ public ResponseEntity<List<AccountTransactionResDto>> findTransactionsByClientUK
 
     return ResponseEntity.ok(transactions);
 }
+@PostMapping("/transaction")
+    public ResponseEntity<AccountTransactionResDto> transactionAccounts(
+            @RequestBody AccountTransactionReqDto accountTransactionReqDto
+            ){
+        return ResponseEntity.ok(this.accountTransanctionService.bankTransfer(accountTransactionReqDto));
+    }
 
 
 

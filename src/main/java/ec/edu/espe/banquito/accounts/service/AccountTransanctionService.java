@@ -52,16 +52,14 @@ public class AccountTransanctionService {
     }
 
     public AccountTransactionResDto bankTransfer(AccountTransactionReqDto accountTransactionReqDto){
-        UUID uniqueId = UUID.randomUUID();
-        String reference = uniqueId.toString();
+        String reference = generarNumeroReferencia();
         AccountTransaction accountTransaction=new AccountTransaction();
         Optional<Account> accountDebtorTmp=this.accountRepository.findValidByCodeInternalAccount(accountTransactionReqDto.getDebtorAccount());
         switch (accountTransactionReqDto.getTransactionType()){
             case "TRANSFER":
                 Optional<Account> accountCredtorTmp=this.accountRepository.findValidByCodeInternalAccount(accountTransactionReqDto.getCreditorAccount());
                 Double ammountTmp=accountTransactionReqDto.getAmmount().doubleValue();
-                //BigDecimal ammountTmp=accountTransactionReqDto.getAmmount();
-                System.out.println(ammountTmp);
+                
                 if(accountDebtorTmp.isPresent() && accountCredtorTmp.isPresent()){
 
                     Double ammountDebtorTemp=accountDebtorTmp.get().getAvailableBalance().doubleValue();
@@ -77,7 +75,7 @@ public class AccountTransanctionService {
                     AccountTransaction accountTransactionDebtor=AccountTransaction.builder()
                             .uniqueKey(UUID.randomUUID().toString())
                             .transactionType(AccountTransaction.TransactionType.TRANSFER)
-                            .reference(reference/*accountTransactionReqDto.getReference()*/)
+                            .reference(reference)
                             .ammount((BigDecimal.valueOf(ammountTmp*-1)))
                             .balanceAfterTransaction(BigDecimal.valueOf(resultDebtor))
                             .creditorAccount(accountTransactionReqDto.getCreditorAccount())
@@ -94,12 +92,12 @@ public class AccountTransanctionService {
                             .valid(true)
                             .build();
 
-                    //BigDecimal ammountTemp=accountTransactionReqDto.getAmmount();
+                    
 
                     AccountTransaction accountTransactionCredtor=AccountTransaction.builder()
                             .uniqueKey(UUID.randomUUID().toString())
                             .transactionType(AccountTransaction.TransactionType.TRANSFER)
-                            .reference(reference/*accountTransactionReqDto.getReference()*/)
+                            .reference(reference)
                             .ammount((BigDecimal.valueOf(ammountTmp)))
                             .balanceAfterTransaction(BigDecimal.valueOf(resultCredtor))
                             .creditorAccount(accountTransactionReqDto.getCreditorAccount())
@@ -128,5 +126,12 @@ public class AccountTransanctionService {
 
         }
         return  this.accountTransactionMapper.toRes(accountTransaction);
+    }
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    private String generarNumeroReferencia() {
+        Long nextValue = jdbcTemplate.queryForObject("SELECT nextval('referencia_seq')", Long.class);
+        return String.format("%08d", nextValue); 
     }
 }
